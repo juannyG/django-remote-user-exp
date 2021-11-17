@@ -5,13 +5,30 @@ from django.shortcuts import render, redirect
 
 
 def login_view(request):
+    error = None
     if request.POST:
-        user = authenticate(remote_user=request.POST['username'])
+        user = None
+        if request.POST.get('remote_username'):
+            '''
+            This workflow must be incredibly buttoned up.
+
+            If a user exists with a username/password, this workflow lets them
+            in with NO PASSWORD CHALLENGE!
+            '''
+            user = authenticate(remote_user=request.POST['remote_username'])
+        elif request.POST.get('username') and request.POST.get('password'):
+            user = authenticate(
+                username=request.POST['username'],
+                password=request.POST['password']
+            )
+
         if user is not None:
             login(request, user)
             return redirect('/secret1')
+        else:
+            error = 'authentication failed'
 
-    return render(request, 'x/login.html', {})
+    return render(request, 'x/login.html', {'message': error})
 
 
 @login_required

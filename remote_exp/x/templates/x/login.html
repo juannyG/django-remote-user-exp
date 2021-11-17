@@ -1,10 +1,19 @@
 <html>
     <body>
-        Hello
+        {% if message %}{{ message }}<br/><br/>{% endif %}
+        Auth via "remote user" flow
         <form method="post">
             {% csrf_token %}
-            <input type="text" name="username" value="" />
+            Remote username: <input type="text" name="remote_username" value="" /><br/>
             <input type="submit" value="Login" />
-        </form> 
+        </form>
+        <br/>
+        Auth via username/password
+        <form method="post">
+            {% csrf_token %}
+            Username: <input type="text" name="username" value="" /><br/>
+            Password: <input type="password" name="password" value="" /><br/>
+            <input type="submit" value="Login" />
+        </form>
     </body>
 </html>
