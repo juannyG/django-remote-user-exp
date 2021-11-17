@@ -1,0 +1,10 @@
+<html>
+    <body>
+        Hello
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="username" value="" />
+            <input type="submit" value="Login" />
+        </form> 
+    </body>
+</html>
